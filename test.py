@@ -1,9 +1,9 @@
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from gol import Board, Location, Space, get_adjacent_locations
 
 
-def test_get_adjacent_locations():
+def test_get_adjacent_locations() -> None:
     location = Location(0, 0)
     expected_adjacent_locations = [
         Location(-1, -1),
@@ -31,7 +31,7 @@ def test_get_adjacent_locations():
     assert get_adjacent_locations(location) == expected_adjacent_locations
 
 
-def test_create():
+def test_create() -> None:
     data = {
         Location(0, 0): Space(is_populated=True),
         Location(1, 2): Space(is_populated=True),
@@ -60,7 +60,7 @@ def test_create():
     assert board.data == expected_data
 
 
-def test_get_adjacent_spaces():
+def test_get_adjacent_spaces() -> None:
     data = {
         Location(0, 0): Space(is_populated=True),
         Location(1, 1): Space(is_populated=True),
@@ -94,7 +94,7 @@ def test_get_adjacent_spaces():
 
 
 @patch("gol.Board.get_adjacent_spaces")
-def test_get_num_adjacent_populated_spaces(m_get_adjacent_spaces):
+def test_get_num_adjacent_populated_spaces(m_get_adjacent_spaces: Mock) -> None:
     m_get_adjacent_spaces.return_value = [
         Space(is_populated=True),
         Space(),
@@ -105,7 +105,7 @@ def test_get_num_adjacent_populated_spaces(m_get_adjacent_spaces):
     assert board.get_num_adjacent_populated_spaces(Location(17, 42)) == 2
 
 
-def test_evolve():
+def test_evolve() -> None:
     glider = {
         Location(2, 1): Space(True),
         Location(3, 2): Space(True),

@@ -18,7 +18,7 @@ class Location:
     x: int
     y: int
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(f"{self.x,self.y}")
 
 
@@ -26,13 +26,13 @@ class Location:
 class Space:
     is_populated: bool = False
 
-    def __str__(self):
+    def __str__(self) -> str:
         return SPACE_POPULATED if self.is_populated else SPACE_VACANT
 
-    def vacate(self):
+    def vacate(self) -> None:
         self.is_populated = False
 
-    def populate(self):
+    def populate(self) -> None:
         self.is_populated = True
 
 
