@@ -49,6 +49,8 @@ class Board:
         for x, y in itertools.product(range(size[0]), range(size[1])):
             location = Location(x, y)
             space = Space()
+
+            # TODO: Warn if data locations are outside of board's size range
             if data is not None and data.get(location, Space()).is_populated:
                 space.populate()
             board.data[location] = space
@@ -61,7 +63,11 @@ class Board:
             try:
                 adjacent_spaces.append(self.data[location])
             except KeyError:
-                # we are out of range of the board
+                # We are out of range of the board.
+                # This is not the best solution, but it's the easiest,
+                # most readable, and probably the most performant.
+                # An alternative would be figuring out what to include
+                # in `get_adjacent_locations`
                 pass
         return adjacent_spaces
 
@@ -120,11 +126,11 @@ if __name__ == "__main__":
         Location(13, 13): Space(True),
     }
 
-    board = Board.create(BOARD_SIZE, glider)
+    board = Board.create(BOARD_SIZE, data=glider)
     board.render()
 
     for i in range(50):
         data = board.evolve()
-        board = Board.create(BOARD_SIZE, data)
+        board = Board.create(BOARD_SIZE, data=data)
         board.render()
         time.sleep(0.25)
