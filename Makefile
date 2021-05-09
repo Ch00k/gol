@@ -1,11 +1,14 @@
 run:
-	python gol.py
+	python3 gol.py
 
-lint:
+lint: install_dev_requirements
 	black --diff --check .
 	flake8 .
 	isort --diff --check-only .
 	mypy .
 
-test:
+install_dev_requirements:
+	pip install -r requirements-dev.txt
+
+test: install_dev_requirements
 	pytest test.py

@@ -4,12 +4,8 @@ import time
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 
-from rich.box import ROUNDED
-from rich.console import Console
-from rich.table import Table
-
-SPACE_VACANT = " "
-SPACE_POPULATED = "\u25a9"
+SPACE_VACANT = "\u2591"
+SPACE_POPULATED = "\u2588"
 BOARD_SIZE = (25, 25)
 
 
@@ -96,12 +92,10 @@ class Board:
         return data
 
     def render(self) -> None:
-        table = Table(show_header=False, show_lines=True, box=ROUNDED)
         for y in range(self.size[1]):
             row = [str(self.data[Location(x, y)]) for x in range(self.size[0])]
-            table.add_row(*row)
-        console = Console()
-        console.print(table)
+            print("".join(row))
+        print()
 
 
 def get_adjacent_locations(location: Location) -> List[Location]:
@@ -119,18 +113,19 @@ def get_adjacent_locations(location: Location) -> List[Location]:
 
 if __name__ == "__main__":
     glider = {
-        Location(12, 11): Space(True),
-        Location(13, 12): Space(True),
-        Location(11, 13): Space(True),
-        Location(12, 13): Space(True),
-        Location(13, 13): Space(True),
+        Location(12, 11): Space(is_populated=True),
+        Location(13, 12): Space(is_populated=True),
+        Location(11, 13): Space(is_populated=True),
+        Location(12, 13): Space(is_populated=True),
+        Location(13, 13): Space(is_populated=True),
     }
+    pulsar = {Location(5, y): Space(is_populated=True) for y in range(5, 15)}
 
-    board = Board.create(BOARD_SIZE, data=glider)
+    board = Board.create(BOARD_SIZE, data={**glider, **pulsar})
     board.render()
 
     for i in range(50):
         data = board.evolve()
         board = Board.create(BOARD_SIZE, data=data)
         board.render()
-        time.sleep(0.25)
+        time.sleep(0.3)
