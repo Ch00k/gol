@@ -4,8 +4,8 @@ import time
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 
-SPACE_VACANT = "\u2591"
-SPACE_POPULATED = "\u2588"
+SPACE_VACANT = "\u2591" * 2
+SPACE_POPULATED = "\u2588" * 2
 BOARD_SIZE = (25, 25)
 
 
